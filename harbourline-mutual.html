@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Report a motor claim · Harbourline Mutual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EEF3F5; --paper:#FFFFFF; --ink:#1C2430; --navy:#12324A; --navy-ink:#FFFFFF;
+  --brass:#A8812F; --line:#CBD6DC; --muted:#5A6875; --error:#B42318; --field:#FFFFFF; --ok:#1F6F4A;
+  color-scheme: light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1A22; --paper:#16242F; --ink:#E6EDF1; --navy:#0B2536; --navy-ink:#E6EDF1;
+    --brass:#D2AE63; --line:#2C3E4B; --muted:#9AAAB6; --error:#FF8A7A; --field:#0F1B24; --ok:#6FD3A0;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1A22; --paper:#16242F; --ink:#E6EDF1; --navy:#0B2536; --navy-ink:#E6EDF1;
+  --brass:#D2AE63; --line:#2C3E4B; --muted:#9AAAB6; --error:#FF8A7A; --field:#0F1B24; --ok:#6FD3A0;
+  color-scheme: dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 16px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 "Source Sans 3",system-ui,-apple-system,"Segoe UI",sans-serif}
+h1,h2{font-family:"Source Serif 4",Georgia,"Times New Roman",serif;font-weight:700;color:var(--ink);margin:0}
+a{color:inherit}
+.masthead{background:var(--navy);color:var(--navy-ink);border-bottom:3px solid var(--brass)}
+.masthead-inner{max-width:1120px;margin:0 auto;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.brand svg{flex:none}
+.brand-name{font-family:"Source Serif 4",Georgia,serif;font-size:1.35rem;font-weight:700;letter-spacing:.01em}
+.brand-sub{font-size:.9rem;opacity:.8;border-left:1px solid rgba(255,255,255,.35);padding-left:12px}
+.helpline{font-size:.95rem;opacity:.9}
+.layout{max-width:1120px;margin:0 auto;padding:32px 24px 64px;display:grid;grid-template-columns:230px minmax(0,1fr);gap:40px;align-items:start}
+.steps{position:sticky;top:calc(env(safe-area-inset-top,0px) + 24px);font-size:.95rem}
+.steps p{margin:0 0 10px;color:var(--muted);font-size:.85rem}
+.steps ol{list-style:none;margin:0;padding:0;border-left:2px solid var(--line)}
+.steps li a{display:flex;gap:10px;padding:7px 0 7px 14px;margin-left:-2px;border-left:2px solid transparent;text-decoration:none;color:var(--muted)}
+.steps li a:hover{color:var(--ink)}
+.steps li a.done{color:var(--ink);border-left-color:var(--brass)}
+.steps .n{font-variant-numeric:tabular-nums;color:var(--brass);font-weight:700;width:1.1em}
+.intro h1{font-size:2.1rem;line-height:1.15;margin-bottom:8px}
+.intro p{margin:0 0 28px;color:var(--muted);max-width:62ch}
+fieldset{border:1px solid var(--line);background:var(--paper);border-radius:4px;margin:0 0 20px;padding:24px 28px 28px;min-width:0}
+legend{float:left;width:100%;padding:0;margin:0 0 18px}
+legend h2{font-size:1.3rem;padding-left:12px;border-left:3px solid var(--brass)}
+legend + *{clear:both}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 22px}
+.full{grid-column:1 / -1}
+.field label,.field .label{display:block;font-weight:600;margin-bottom:6px}
+.hint{display:block;font-weight:400;color:var(--muted);font-size:.88rem;margin-top:-3px;margin-bottom:6px}
+input[type=text],input[type=email],input[type=tel],input[type=date],input[type=time],input[type=number],select,textarea{
+  width:100%;font:inherit;color:var(--ink);background:var(--field);border:1px solid #8A9AA6;border-radius:3px;padding:9px 11px;min-height:42px}
+textarea{min-height:120px;resize:vertical}
+input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible,.choice input:focus-visible{outline:3px solid var(--brass);outline-offset:1px}
+.money{display:flex}
+.money span{display:flex;align-items:center;padding:0 12px;border:1px solid #8A9AA6;border-right:0;border-radius:3px 0 0 3px;background:var(--bg);font-weight:600}
+.money input{border-radius:0 3px 3px 0}
+.choices{display:flex;flex-wrap:wrap;gap:8px 22px}
+.checks{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px 16px}
+.choice{display:flex;align-items:center;gap:8px;font-weight:400;margin:0;cursor:pointer}
+.choice input{width:18px;height:18px;accent-color:var(--navy);margin:0}
+:root[data-theme="dark"] .choice input{accent-color:var(--brass)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .choice input{accent-color:var(--brass)}}
+.error-msg{display:none;color:var(--error);font-size:.88rem;margin-top:5px}
+.invalid .error-msg{display:block}
+.invalid input,.invalid select,.invalid textarea{border-color:var(--error)}
+.declaration{display:flex;gap:12px;align-items:flex-start;background:var(--bg);padding:14px 16px;border-radius:3px}
+.declaration input{margin-top:3px}
+.actions{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-top:8px}
+.actions p{margin:0;color:var(--muted);font-size:.9rem}
+.btn{font:600 1rem/1 "Source Sans 3",system-ui,sans-serif;background:var(--navy);color:#fff;border:2px solid var(--navy);border-radius:3px;padding:14px 26px;cursor:pointer}
+:root[data-theme="dark"] .btn{background:var(--brass);border-color:var(--brass);color:#1a1405}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn{background:var(--brass);border-color:var(--brass);color:#1a1405}}
+.btn.secondary{background:transparent;color:var(--ink);border-color:var(--line)}
+.banner{display:none;border:1px solid var(--error);color:var(--error);background:var(--paper);padding:12px 16px;border-radius:3px;margin-bottom:18px}
+.banner.show{display:block}
+#confirmation{display:none}
+#confirmation.show{display:block}
+.confirm-card{background:var(--paper);border:1px solid var(--line);border-top:4px solid var(--ok);border-radius:4px;padding:28px}
+.confirm-card h1{font-size:1.9rem;margin-bottom:6px}
+.ref{font-size:1.1rem;margin:4px 0 18px}
+.ref strong{font-variant-numeric:tabular-nums;letter-spacing:.03em}
+.timing{display:flex;gap:28px;flex-wrap:wrap;padding:14px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:20px}
+.timing div{font-size:.9rem;color:var(--muted)}
+.timing b{display:block;font-size:1.6rem;color:var(--ink);font-variant-numeric:tabular-nums}
+.table-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.95rem}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{width:38%;color:var(--muted);font-weight:600}
+@media (max-width:860px){
+  .layout{grid-template-columns:1fr;gap:20px}
+  .steps{position:static}
+  .steps ol{display:flex;flex-wrap:wrap;border-left:0;gap:4px 14px}
+  .steps li a{padding:4px 0;border-left:0}
+}
+@media (max-width:600px){
+  .grid{grid-template-columns:1fr}
+  .checks{grid-template-columns:repeat(2,minmax(0,1fr))}
+  fieldset{padding:20px 18px 22px}
+  .intro h1{font-size:1.7rem}
+}
+@media (prefers-reduced-motion: reduce){*{scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<header class="masthead">
+  <div class="masthead-inner">
+    <a class="brand" href="#top" aria-label="Harbourline Mutual">
+      <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><circle cx="17" cy="17" r="15" fill="none" stroke="#A8812F" stroke-width="2"/><path d="M17 7v18M11 13h12M9 21c2 4 14 4 16 0" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+      <span class="brand-name">Harbourline Mutual</span>
+      <span class="brand-sub">Motor claims</span>
+    </a>
+    <span class="helpline">Claims line 0800 414 2026, open 24 hours</span>
+  </div>
+</header>
+
+<div class="layout" id="top">
+  <nav class="steps" aria-label="Form sections">
+    <p>Sections</p>
+    <ol id="stepList">
+      <li><a href="#sec-policy" data-sec="sec-policy"><span class="n">1</span>Policyholder</a></li>
+      <li><a href="#sec-incident" data-sec="sec-incident"><span class="n">2</span>The incident</a></li>
+      <li><a href="#sec-vehicle" data-sec="sec-vehicle"><span class="n">3</span>Your vehicle</a></li>
+      <li><a href="#sec-damage" data-sec="sec-damage"><span class="n">4</span>Damage and police</a></li>
+      <li><a href="#sec-contact" data-sec="sec-contact"><span class="n">5</span>Contact and declaration</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <section id="formView">
+      <div class="intro">
+        <h1>Report a motor claim</h1>
+        <p>Tell us what happened and we'll assign a claims handler within one working day. All fields are required unless marked optional.</p>
+      </div>
+      <div class="banner" id="errorBanner" role="alert"></div>
+
+      <form id="claimForm" novalidate>
+        <fieldset id="sec-policy">
+          <legend><h2>Policyholder</h2></legend>
+          <div class="grid">
+            <div class="field full" data-req>
+              <label for="policyNumber">Policy number</label>
+              <span class="hint">Printed on your certificate, for example POL-1234-5678</span>
+              <input type="text" id="policyNumber" name="policyNumber" autocomplete="off">
+              <span class="error-msg">Enter your policy number.</span>
+            </div>
+            <div class="field" data-req>
+              <label for="firstName">First name</label>
+              <input type="text" id="firstName" name="firstName" autocomplete="given-name">
+              <span class="error-msg">Enter your first name.</span>
+            </div>
+            <div class="field" data-req>
+              <label for="lastName">Last name</label>
+              <input type="text" id="lastName" name="lastName" autocomplete="family-name">
+              <span class="error-msg">Enter your last name.</span>
+            </div>
+            <div class="field" data-req>
+              <label for="dob">Date of birth</label>
+              <input type="date" id="dob" name="dob" min="1920-01-01">
+              <span class="error-msg">Enter your date of birth.</span>
+            </div>
+            <div class="field" data-req>
+              <label for="phone">Phone number</label>
+              <input type="tel" id="phone" name="phone" autocomplete="tel">
+              <span class="error-msg">Enter a phone number.</span>
+            </div>
+            <div class="field full" data-req data-email>
+              <label for="email">Email address</label>
+              <input type="email" id="email" name="email" autocomplete="email">
+              <span class="error-msg">Enter an email address like name@example.com.</span>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset id="sec-incident">
+          <legend><h2>The incident</h2></legend>
+          <div class="grid">
+            <div class="field full" data-req>
+              <label for="claimType">Type of claim</label>
+              <select id="claimType" name="claimType">
+                <option value="">Select a claim type</option>
+                <option>Collision</option><option>Theft</option><option>Vandalism</option>
+                <option>Weather damage</option><option>Glass damage</option><option>Fire</option>
+              </select>
+              <span class="error-msg">Select the type of claim.</span>
+            </div>
+            <div class="field" data-req>
+              <label for="incidentDate">Date of incident</label>
+              <input type="date" id="incidentDate" name="incidentDate" min="2020-01-01">
+              <span class="error-msg">Enter the date of the incident. It can't be in the future.</span>
+            </div>
+            <div class="field" data-req>
+              <label for="incidentTime">Approximate time</label>
+              <input type="time" id="incidentTime" name="incidentTime">
+              <span class="error-msg">Enter the approximate time.</span>
+            </div>
+            <div class="field" data-req>
+              <label for="city">Town or city</label>
+              <input type="text" id="city" name="city">
+              <span class="error-msg">Enter the town or city.</span>
+            </div>
+            <div class="field" data-req>
+              <label for="country">Country</label>
+              <select id="country" name="country"></select>
+              <span class="error-msg">Select the country.</span>
+            </div>
+            <div class="field full" data-req>
+              <label for="description">What happened?</label>
+              <span class="hint">Describe the events in the order they happened.</span>
+              <textarea id="description" name="description"></textarea>
+              <span class="error-msg">Describe what happened.</span>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset id="sec-vehicle">
+          <legend><h2>Your vehicle</h2></legend>
+          <div class="grid">
+            <div class="field" data-req>
+              <label for="make">Make</label>
+              <select id="make" name="make"></select>
+              <span class="error-msg">Select the make of the vehicle.</span>
+            </div>
+            <div class="field" data-req>
+              <label for="year">Year of manufacture</label>
+              <input type="number" id="year" name="year" min="1980" max="2027" step="1" inputmode="numeric">
+              <span class="error-msg">Enter a year between 1980 and 2027.</span>
+            </div>
+            <div class="field full" data-req>
+              <label for="plate">Registration plate</label>
+              <input type="text" id="plate" name="plate" autocomplete="off">
+              <span class="error-msg">Enter the registration plate.</span>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset id="sec-damage">
+          <legend><h2>Damage and police</h2></legend>
+          <div class="grid">
+            <div class="field full" data-req data-group="damage">
+              <span class="label" id="damageLabel">Damaged areas</span>
+              <span class="hint">Tick all that apply.</span>
+              <div class="checks" role="group" aria-labelledby="damageLabel" id="damageGroup"></div>
+              <span class="error-msg">Tick at least one damaged area.</span>
+            </div>
+            <div class="field" data-req>
+              <label for="estimate">Estimated repair cost</label>
+              <div class="money"><span aria-hidden="true">€</span><input type="number" id="estimate" name="estimate" min="0" step="1" inputmode="decimal"></div>
+              <span class="error-msg">Enter an estimate in euros.</span>
+            </div>
+            <div class="field" data-req>
+              <label for="severity">Severity of damage</label>
+              <select id="severity" name="severity">
+                <option value="">Select severity</option>
+                <option value="1">1 – Cosmetic</option><option value="2">2 – Minor</option>
+                <option value="3">3 – Moderate</option><option value="4">4 – Major</option>
+                <option value="5">5 – Total loss</option>
+              </select>
+              <span class="error-msg">Select how severe the damage is.</span>
+            </div>
+            <div class="field" data-req data-group="police">
+              <span class="label" id="policeLabel">Was the incident reported to the police?</span>
+              <div class="choices" role="radiogroup" aria-labelledby="policeLabel">
+                <label class="choice"><input type="radio" name="police" id="policeYes" value="Yes">Yes</label>
+                <label class="choice"><input type="radio" name="police" id="policeNo" value="No">No</label>
+              </div>
+              <span class="error-msg">Choose yes or no.</span>
+            </div>
+            <div class="field" data-group="injuries" data-req>
+              <span class="label" id="injLabel">Was anyone injured?</span>
+              <div class="choices" role="radiogroup" aria-labelledby="injLabel">
+                <label class="choice"><input type="radio" name="injuries" id="injYes" value="Yes">Yes</label>
+                <label class="choice"><input type="radio" name="injuries" id="injNo" value="No">No</label>
+              </div>
+              <span class="error-msg">Choose yes or no.</span>
+            </div>
+            <div class="field full" id="policeRefField">
+              <label for="policeRef">Police report number <span class="hint" style="display:inline">(required if reported)</span></label>
+              <input type="text" id="policeRef" name="policeRef" autocomplete="off">
+              <span class="error-msg">Enter the police report number, or answer No above.</span>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset id="sec-contact">
+          <legend><h2>Contact and declaration</h2></legend>
+          <div class="field" data-req data-group="contact" style="margin-bottom:20px">
+            <span class="label" id="contactLabel">How should we contact you about this claim?</span>
+            <div class="choices" role="radiogroup" aria-labelledby="contactLabel">
+              <label class="choice"><input type="radio" name="contact" value="Email">Email</label>
+              <label class="choice"><input type="radio" name="contact" value="Phone">Phone</label>
+              <label class="choice"><input type="radio" name="contact" value="Post">Post</label>
+            </div>
+            <span class="error-msg">Choose a contact method.</span>
+          </div>
+          <div class="field" data-req data-check="declaration">
+            <label class="declaration" for="declaration">
+              <input type="checkbox" id="declaration" name="declaration" class="choice">
+              <span>I declare that the information I've given is true and complete to the best of my knowledge. I understand that false statements may invalidate my policy.</span>
+            </label>
+            <span class="error-msg">Confirm the declaration to submit your claim.</span>
+          </div>
+        </fieldset>
+
+        <div class="actions">
+          <p>You can't edit a claim after it's submitted.</p>
+          <button type="submit" class="btn" id="submitBtn">Submit claim</button>
+        </div>
+      </form>
+    </section>
+
+    <section id="confirmation" aria-live="polite">
+      <div class="confirm-card">
+        <h1>Claim submitted</h1>
+        <p class="ref">Your claim reference is <strong id="refNo"></strong></p>
+        <div class="timing">
+          <div><b id="tForm">–</b>First input to submit</div>
+          <div><b id="tLoad">–</b>Page load to submit</div>
+          <div><b id="tStamp">–</b>Submitted at</div>
+        </div>
+        <h2 style="font-size:1.2rem;margin-bottom:10px">What we received</h2>
+        <div class="table-wrap"><table id="summary"><tbody></tbody></table></div>
+        <div class="actions" style="margin-top:22px">
+          <p>A handler will contact you within one working day.</p>
+          <button type="button" class="btn secondary" id="againBtn">Report another claim</button>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+(function(){
+  const COUNTRIES=["Austria","Belgium","Bulgaria","Croatia","Czechia","France","Germany","Greece","Hungary","Italy","Netherlands","Poland","Portugal","Romania","Spain","United Kingdom"];
+  const MAKES=["Audi","BMW","Dacia","Fiat","Ford","Hyundai","Kia","Mercedes-Benz","Peugeot","Renault","Skoda","Toyota","Volkswagen","Volvo"];
+  const AREAS=["Front bumper","Rear bumper","Bonnet","Doors","Windscreen","Headlights","Tail lights","Mirrors"];
+  const $=s=>document.querySelector(s);
+  const fill=(sel,items,ph)=>{sel.innerHTML='<option value="">'+ph+'</option>'+items.map(v=>'<option>'+v+'</option>').join('')};
+  fill($('#country'),COUNTRIES,'Select a country');
+  fill($('#make'),MAKES,'Select a make');
+  $('#damageGroup').innerHTML=AREAS.map((a,i)=>'<label class="choice"><input type="checkbox" name="damage" id="dmg'+i+'" value="'+a+'">'+a+'</label>').join('');
+  const today=new Date(); const iso=d=>d.toISOString().slice(0,10);
+  $('#incidentDate').max=iso(today); $('#dob').max=iso(today);
+
+  const form=$('#claimForm');
+  const tLoad=performance.now(); let tFirst=null;
+  const mark=()=>{if(tFirst===null)tFirst=performance.now()};
+  ['pointerdown','keydown','input','focusin'].forEach(e=>form.addEventListener(e,mark,true));
+
+  function val(id){return (document.getElementById(id).value||'').trim()}
+  function radio(name){const r=form.querySelector('input[name="'+name+'"]:checked');return r?r.value:''}
+  function checks(name){return [...form.querySelectorAll('input[name="'+name+'"]:checked')].map(c=>c.value)}
+
+  function validate(){
+    let bad=[];
+    form.querySelectorAll('.field').forEach(f=>f.classList.remove('invalid'));
+    form.querySelectorAll('[data-req]').forEach(f=>{
+      let ok=true;
+      if(f.dataset.group){ ok = f.dataset.group==='damage' ? checks('damage').length>0 : !!radio(f.dataset.group); }
+      else if(f.dataset.check){ ok=document.getElementById(f.dataset.check).checked; }
+      else { const el=f.querySelector('input,select,textarea'); ok=!!el.value.trim();
+        if(ok && f.hasAttribute('data-email')) ok=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value.trim());
+        if(ok && el.id==='incidentDate') ok=el.value<=iso(today);
+        if(ok && el.id==='year'){const y=+el.value; ok=y>=1980&&y<=2027;} }
+      if(!ok){f.classList.add('invalid');bad.push(f)}
+    });
+    const pf=$('#policeRefField');
+    if(radio('police')==='Yes' && !val('policeRef')){pf.classList.add('invalid');bad.push(pf)}
+    return bad;
+  }
+
+  function updateSteps(){
+    document.querySelectorAll('#stepList a').forEach(a=>{
+      const sec=document.getElementById(a.dataset.sec);
+      const reqs=[...sec.querySelectorAll('[data-req]')];
+      const done=reqs.every(f=>{
+        if(f.dataset.group) return f.dataset.group==='damage'?checks('damage').length>0:!!radio(f.dataset.group);
+        if(f.dataset.check) return document.getElementById(f.dataset.check).checked;
+        const el=f.querySelector('input,select,textarea'); return !!el.value.trim();
+      });
+      a.classList.toggle('done',done);
+    });
+  }
+  form.addEventListener('input',updateSteps); form.addEventListener('change',updateSteps);
+
+  form.addEventListener('submit',e=>{
+    e.preventDefault();
+    const bad=validate(); const banner=$('#errorBanner');
+    if(bad.length){
+      banner.textContent=bad.length===1?'1 field needs attention before you can submit.':bad.length+' fields need attention before you can submit.';
+      banner.classList.add('show');
+      const first=bad[0].querySelector('input,select,textarea'); bad[0].scrollIntoView({block:'center'}); if(first)first.focus({preventScroll:true});
+      return;
+    }
+    banner.classList.remove('show');
+    const now=performance.now();
+    const fmtDate=v=>v?new Date(v+'T00:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'}):'';
+    const sevText=$('#severity').selectedOptions[0].textContent;
+    const rows=[
+      ['Policy number',val('policyNumber')],['First name',val('firstName')],['Last name',val('lastName')],
+      ['Date of birth',fmtDate(val('dob'))],['Phone',val('phone')],['Email',val('email')],
+      ['Type of claim',val('claimType')],['Date of incident',fmtDate(val('incidentDate'))],['Time',val('incidentTime')],
+      ['Town or city',val('city')],['Country',val('country')],['Make',val('make')],['Year',val('year')],['Registration plate',val('plate')],
+      ['Damaged areas',checks('damage').join(', ')],['Estimated repair cost','€ '+Number(val('estimate')).toLocaleString('en-GB')],
+      ['Severity',sevText],['Reported to police',radio('police')],['Police report number',val('policeRef')||'None'],
+      ['Anyone injured',radio('injuries')],['Contact by',radio('contact')],['What happened',val('description')],['Declaration','Confirmed']
+    ];
+    const tb=$('#summary tbody'); tb.innerHTML='';
+    rows.forEach(([k,v])=>{const tr=document.createElement('tr');const th=document.createElement('th');th.textContent=k;const td=document.createElement('td');td.textContent=v;tr.append(th,td);tb.append(tr)});
+    $('#refNo').textContent='HLM-'+today.getFullYear()+'-'+String(Math.floor(100000+Math.random()*900000));
+    $('#tForm').textContent=tFirst===null?'–':((now-tFirst)/1000).toFixed(1)+' s';
+    $('#tLoad').textContent=((now-tLoad)/1000).toFixed(1)+' s';
+    $('#tStamp').textContent=new Date().toLocaleTimeString('en-GB');
+    window.lastSubmission=Object.fromEntries(rows);
+    $('#formView').style.display='none'; $('#confirmation').classList.add('show');
+    window.scrollTo(0,0);
+  });
+
+  $('#againBtn').addEventListener('click',()=>{location.reload()});
+})();
+</script>
+</body>
+</html>

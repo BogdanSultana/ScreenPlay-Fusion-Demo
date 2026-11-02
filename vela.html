@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>New claim · Vela</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F4F0FF; --surface:#FFFFFF; --ink:#1D1733; --violet:#5B3DF5; --violet-ink:#FFFFFF; --coral:#FF6B5B;
+  --soft:#E9E3FF; --muted:#6B6485; --line:#D9D0F7; --error:#D6263B; --ok:#138A5E;
+  color-scheme:light; box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#17122A; --surface:#221B3A; --ink:#F1EDFF; --violet:#9E8BFF; --violet-ink:#17122A; --coral:#FF8A7D;
+    --soft:#2E2552; --muted:#ABA3C9; --line:#3B3163; --error:#FF7A88; --ok:#5FD6A6; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#17122A; --surface:#221B3A; --ink:#F1EDFF; --violet:#9E8BFF; --violet-ink:#17122A; --coral:#FF8A7D;
+  --soft:#2E2552; --muted:#ABA3C9; --line:#3B3163; --error:#FF7A88; --ok:#5FD6A6; color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 80px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.5 Figtree,system-ui,-apple-system,"Segoe UI",sans-serif}
+button,input,textarea{font:inherit;color:inherit}
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
+.topbar-inner{max-width:720px;margin:0 auto;padding:14px 22px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;font-size:1.6rem;letter-spacing:-.03em;color:var(--violet);text-decoration:none}
+.logo span{color:var(--coral)}
+.count{font-weight:600;color:var(--muted);font-size:.95rem;font-variant-numeric:tabular-nums}
+.progress{height:4px;background:var(--line)}
+.progress i{display:block;height:100%;width:0;background:var(--coral);transition:width .25s ease}
+main{max-width:720px;margin:0 auto;padding:36px 22px 90px}
+.hero h1{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;font-size:clamp(2.3rem,7vw,3.6rem);line-height:1.02;letter-spacing:-.035em;margin:0 0 14px}
+.hero p{font-size:1.1rem;color:var(--muted);margin:0 0 44px;max-width:52ch}
+.q{padding:30px 0;border-top:1px solid var(--line)}
+.q h2{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:600;font-size:clamp(1.45rem,4vw,1.85rem);letter-spacing:-.02em;line-height:1.15;margin:0 0 6px}
+.q .sub{color:var(--muted);margin:0 0 18px}
+.row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.row3{display:grid;grid-template-columns:2fr 1fr 1fr;gap:16px}
+.lbl{display:block;font-size:.9rem;font-weight:600;color:var(--muted);margin:0 0 6px}
+.txt{width:100%;background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:13px 16px;min-height:52px;outline:none}
+.txt:focus{border-color:var(--violet)}
+textarea.txt{min-height:130px;resize:vertical}
+.prefix{position:relative}
+.prefix span{position:absolute;left:16px;top:50%;transform:translateY(-50%);font-weight:700;color:var(--muted)}
+.prefix .txt{padding-left:36px}
+:focus-visible{outline:3px solid var(--coral);outline-offset:2px}
+.txt:focus-visible{outline:none}
+.err{display:none;color:var(--error);font-weight:600;font-size:.92rem;margin-top:10px}
+.q.bad .err{display:block}
+.q.bad .txt,.q.bad .dd-btn{border-color:var(--error)}
+
+/* tiles */
+.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.tile{position:relative}
+.tile input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.tile span{display:flex;flex-direction:column;gap:8px;align-items:flex-start;padding:16px;border:2px solid var(--line);border-radius:18px;background:var(--surface);font-weight:600;min-height:96px}
+.tile b{font-size:1.6rem;line-height:1}
+.tile input:checked + span{border-color:var(--violet);background:var(--soft);box-shadow:inset 0 0 0 1px var(--violet)}
+.tile input:focus-visible + span{outline:3px solid var(--coral);outline-offset:2px}
+
+/* dropdown */
+.dd{position:relative}
+.dd-btn{width:100%;display:flex;justify-content:space-between;align-items:center;gap:10px;text-align:left;background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:13px 16px;min-height:52px;cursor:pointer}
+.dd-btn[aria-expanded="true"]{border-color:var(--violet)}
+.dd-btn .ph{color:var(--muted)}
+.dd-btn svg{flex:none;transition:transform .15s}
+.dd-btn[aria-expanded="true"] svg{transform:rotate(180deg)}
+.dd-pop{position:absolute;z-index:20;left:0;right:0;top:calc(100% + 6px);background:var(--surface);border:2px solid var(--violet);border-radius:14px;padding:8px;box-shadow:0 18px 40px -18px rgba(40,20,120,.45)}
+.dd-search{width:100%;border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:9px 12px;margin-bottom:6px;outline:none}
+.dd-list{list-style:none;margin:0;padding:0;max-height:230px;overflow:auto}
+.dd-list li{padding:9px 12px;border-radius:9px;cursor:pointer}
+.dd-list li[aria-selected="true"]{font-weight:700;color:var(--violet)}
+.dd-list li.active,.dd-list li:hover{background:var(--soft)}
+.dd-empty{padding:9px 12px;color:var(--muted)}
+
+/* datepicker */
+.dp{position:relative}
+.dp .txt{padding-right:54px}
+.dp-toggle{position:absolute;right:6px;top:6px;width:42px;height:40px;border:0;border-radius:10px;background:var(--soft);color:var(--violet);cursor:pointer;display:grid;place-items:center}
+.dp-pop{position:absolute;z-index:20;top:calc(100% + 6px);left:0;width:320px;max-width:100%;background:var(--surface);border:2px solid var(--violet);border-radius:16px;padding:12px;box-shadow:0 18px 40px -18px rgba(40,20,120,.45)}
+.dp-head{display:flex;gap:6px;align-items:center;margin-bottom:8px}
+.dp-head select{flex:1;border:1px solid var(--line);background:var(--bg);border-radius:9px;padding:6px 8px;font:inherit;color:inherit}
+.dp-nav{border:0;background:var(--soft);color:var(--violet);width:34px;height:34px;border-radius:9px;cursor:pointer;font-weight:700}
+.dp-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;text-align:center}
+.dp-grid .dow{font-size:.78rem;color:var(--muted);font-weight:600;padding:4px 0}
+.dp-grid button{border:0;background:transparent;border-radius:9px;height:36px;cursor:pointer;font-variant-numeric:tabular-nums}
+.dp-grid button:hover{background:var(--soft)}
+.dp-grid button.sel{background:var(--violet);color:var(--violet-ink);font-weight:700}
+.dp-grid button.today{box-shadow:inset 0 0 0 1px var(--coral)}
+.dp-grid button:disabled{opacity:.3;cursor:not-allowed;background:transparent}
+
+/* stepper */
+.stepper{display:flex;align-items:stretch;border:2px solid var(--line);border-radius:14px;background:var(--surface);overflow:hidden;min-height:52px}
+.stepper button{border:0;background:var(--soft);color:var(--violet);width:48px;font-size:1.3rem;font-weight:700;cursor:pointer}
+.stepper input{flex:1;min-width:0;border:0;background:transparent;text-align:center;font-weight:700;font-variant-numeric:tabular-nums;outline:none}
+
+/* chips */
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{border:2px solid var(--line);background:var(--surface);border-radius:999px;padding:9px 16px;font-weight:600;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--violet);border-color:var(--violet);color:var(--violet-ink)}
+
+/* slider */
+.slider{padding:6px 2px 0}
+.slider input{width:100%;accent-color:var(--coral);height:28px}
+.ticks{display:flex;justify-content:space-between;font-size:.86rem;color:var(--muted);font-weight:600}
+.ticks span{width:20%;text-align:center}
+.ticks span:first-child{text-align:left}.ticks span:last-child{text-align:right}
+.sevout{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;font-size:1.3rem;margin-bottom:6px}
+.sevout.unset{color:var(--muted);font-weight:600;font-size:1.05rem;font-family:Figtree,system-ui,sans-serif}
+
+/* switch */
+.sw{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 16px;background:var(--surface);border:2px solid var(--line);border-radius:14px;cursor:pointer;margin-bottom:12px}
+.sw input{position:absolute;opacity:0;width:1px;height:1px}
+.sw .track{flex:none;width:52px;height:30px;border-radius:999px;background:var(--line);position:relative;transition:background .15s}
+.sw .track::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:transform .15s}
+.sw input:checked + .track{background:var(--violet)}
+.sw input:checked + .track::after{transform:translateX(22px)}
+.sw input:focus-visible + .track{outline:3px solid var(--coral);outline-offset:2px}
+.sw .state{font-size:.9rem;color:var(--muted);font-weight:600;min-width:2.2em;text-align:right}
+
+/* segmented */
+.seg{display:inline-flex;background:var(--soft);border-radius:14px;padding:4px;gap:4px;flex-wrap:wrap}
+.seg label{position:relative}
+.seg input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.seg span{display:block;padding:10px 20px;border-radius:10px;font-weight:600}
+.seg input:checked + span{background:var(--surface);color:var(--violet);box-shadow:0 2px 8px -4px rgba(40,20,120,.5)}
+.seg input:focus-visible + span{outline:3px solid var(--coral)}
+
+.send{margin-top:34px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.btn{border:0;background:var(--coral);color:#1d0a08;font-weight:700;font-size:1.1rem;padding:17px 34px;border-radius:999px;cursor:pointer}
+.btn.ghost{background:var(--soft);color:var(--violet)}
+.send p{margin:0;color:var(--muted)}
+.summary-bad{display:none;color:var(--error);font-weight:600}
+.summary-bad.show{display:block}
+
+#done{display:none}
+#done.show{display:block}
+#done h1{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;font-size:clamp(2.4rem,8vw,3.8rem);letter-spacing:-.035em;line-height:1;margin:0 0 12px}
+.ref{font-size:1.15rem;margin:0 0 26px}
+.ref b{color:var(--violet);font-variant-numeric:tabular-nums}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:26px}
+.stats div{background:var(--surface);border-radius:18px;padding:16px;color:var(--muted);font-weight:600;font-size:.9rem}
+.stats b{display:block;font-family:"Bricolage Grotesque",system-ui,sans-serif;font-size:1.9rem;color:var(--ink);font-variant-numeric:tabular-nums}
+.stats div:first-child{background:var(--violet);color:var(--violet-ink)}
+.stats div:first-child b{color:var(--violet-ink)}
+dl.recap{margin:0;background:var(--surface);border-radius:18px;padding:6px 18px}
+dl.recap div{display:grid;grid-template-columns:40% 1fr;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+dl.recap div:last-child{border-bottom:0}
+dl.recap dt{color:var(--muted);font-weight:600}
+dl.recap dd{margin:0;overflow-wrap:anywhere}
+
+@media (max-width:620px){
+  .row,.row3{grid-template-columns:1fr}
+  .tiles{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .stats{grid-template-columns:1fr}
+  dl.recap div{grid-template-columns:1fr;gap:2px}
+}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="logo" href="#top">vela<span>.</span></a>
+    <span class="count" id="count">0 of 20 answered</span>
+  </div>
+  <div class="progress" aria-hidden="true"><i id="bar"></i></div>
+</header>
+
+<main id="top">
+<section id="formView">
+  <div class="hero">
+    <h1>Something happened to your car. Let's sort it out.</h1>
+    <p>Answer a few questions and we'll get a claims specialist on it today. It usually takes about four minutes.</p>
+  </div>
+
+  <form id="velaForm" novalidate autocomplete="off">
+    <div class="q" data-key="fullName">
+      <h2>First, who are you?</h2>
+      <p class="sub">Use the name on your policy.</p>
+      <label class="lbl" for="fullName">Full name</label>
+      <input class="txt" id="fullName" type="text" autocomplete="name">
+      <p class="err">We need your full name to find your policy.</p>
+    </div>
+
+    <div class="q" data-key="contactInfo">
+      <h2>How can we reach you?</h2>
+      <div class="row">
+        <div><label class="lbl" for="emailAddr">Email</label><input class="txt" id="emailAddr" type="email" autocomplete="email"></div>
+        <div><label class="lbl" for="mobile">Mobile number</label><input class="txt" id="mobile" type="tel" autocomplete="tel" placeholder="+40 …"></div>
+      </div>
+      <p class="err">Add a valid email and a mobile number.</p>
+    </div>
+
+    <div class="q" data-key="birthday">
+      <h2>When's your birthday?</h2>
+      <p class="sub">Type it or pick it from the calendar.</p>
+      <label class="lbl" for="birthday">Birthday</label>
+      <div class="dp" data-min="1920-01-01"><input class="txt" id="birthday" type="text" placeholder="e.g. 14 Mar 1986"></div>
+      <p class="err">Add your date of birth.</p>
+    </div>
+
+    <div class="q" data-key="policyId">
+      <h2>What's your policy ID?</h2>
+      <p class="sub">You'll find it in the Vela app under My cover.</p>
+      <label class="lbl" for="policyId">Policy ID</label>
+      <input class="txt" id="policyId" type="text">
+      <p class="err">Add your policy ID.</p>
+    </div>
+
+    <div class="q" data-key="claimKind">
+      <h2>What kind of claim is this?</h2>
+      <div class="tiles" role="radiogroup" aria-label="Claim type">
+        <label class="tile"><input type="radio" name="claimKind" value="Collision"><span><b aria-hidden="true">💥</b>Collision</span></label>
+        <label class="tile"><input type="radio" name="claimKind" value="Theft"><span><b aria-hidden="true">🔓</b>Theft</span></label>
+        <label class="tile"><input type="radio" name="claimKind" value="Vandalism"><span><b aria-hidden="true">🪨</b>Vandalism</span></label>
+        <label class="tile"><input type="radio" name="claimKind" value="Weather damage"><span><b aria-hidden="true">🌩️</b>Weather damage</span></label>
+        <label class="tile"><input type="radio" name="claimKind" value="Glass damage"><span><b aria-hidden="true">🪟</b>Glass damage</span></label>
+        <label class="tile"><input type="radio" name="claimKind" value="Fire"><span><b aria-hidden="true">🔥</b>Fire</span></label>
+      </div>
+      <p class="err">Pick the option that fits best.</p>
+    </div>
+
+    <div class="q" data-key="when">
+      <h2>When did it happen?</h2>
+      <div class="row3">
+        <div><label class="lbl" for="whenDate">Date</label><div class="dp" data-min="2020-01-01" data-max="today"><input class="txt" id="whenDate" type="text" placeholder="e.g. 12 Sep 2026"></div></div>
+        <div><label class="lbl" id="hourLbl">Hour</label><div class="dd" data-id="whenHour" data-ph="HH" data-labelledby="hourLbl"></div></div>
+        <div><label class="lbl" id="minLbl">Minute</label><div class="dd" data-id="whenMinute" data-ph="MM" data-labelledby="minLbl"></div></div>
+      </div>
+      <p class="err">Add the date and the approximate time. The date can't be in the future.</p>
+    </div>
+
+    <div class="q" data-key="where">
+      <h2>Where were you?</h2>
+      <div class="row">
+        <div><label class="lbl" for="town">City</label><input class="txt" id="town" type="text"></div>
+        <div><label class="lbl" id="countryLbl">Country</label><div class="dd" data-id="countryPick" data-ph="Choose a country" data-search="1" data-labelledby="countryLbl"></div></div>
+      </div>
+      <p class="err">Add the city and country.</p>
+    </div>
+
+    <div class="q" data-key="car">
+      <h2>Tell us about the car</h2>
+      <div class="row3">
+        <div><label class="lbl" id="makeLbl">Brand</label><div class="dd" data-id="carBrand" data-ph="Choose a brand" data-search="1" data-labelledby="makeLbl"></div></div>
+        <div><label class="lbl" for="carYear">Model year</label>
+          <div class="stepper"><button type="button" id="yearDown" aria-label="Previous year">−</button><input id="carYear" type="text" inputmode="numeric" placeholder="YYYY" maxlength="4"><button type="button" id="yearUp" aria-label="Next year">+</button></div></div>
+        <div><label class="lbl" for="numberPlate">Number plate</label><input class="txt" id="numberPlate" type="text"></div>
+      </div>
+      <p class="err">Add the brand, a model year between 1980 and 2027, and the number plate.</p>
+    </div>
+
+    <div class="q" data-key="damage">
+      <h2>What got damaged?</h2>
+      <p class="sub">Tap everything that applies.</p>
+      <div class="chips" id="chips" role="group" aria-label="Damaged parts"></div>
+      <p class="err">Tap at least one part.</p>
+    </div>
+
+    <div class="q" data-key="severity">
+      <h2>How bad is it?</h2>
+      <div class="sevout unset" id="sevOut" aria-live="polite">Drag the slider</div>
+      <div class="slider">
+        <label class="lbl" for="severityRange" style="position:absolute;left:-9999px">Damage severity, 1 to 5</label>
+        <input type="range" id="severityRange" min="1" max="5" step="1" value="1">
+        <div class="ticks" aria-hidden="true"><span>1 Scratch</span><span>2 Minor</span><span>3 Moderate</span><span>4 Major</span><span>5 Wrecked</span></div>
+      </div>
+      <p class="err">Move the slider to set the severity.</p>
+    </div>
+
+    <div class="q" data-key="cost">
+      <h2>Any idea what the repair will cost?</h2>
+      <p class="sub">A rough number is fine. We'll get a proper quote.</p>
+      <label class="lbl" for="repairCost">Repair estimate in euros</label>
+      <div class="prefix"><span aria-hidden="true">€</span><input class="txt" id="repairCost" type="text" inputmode="decimal"></div>
+      <p class="err">Add an estimate. A number like 2450 works.</p>
+    </div>
+
+    <div class="q" data-key="police">
+      <h2>Police and injuries</h2>
+      <label class="sw" for="policeSwitch"><span>I filed a police report</span><span style="display:flex;gap:10px;align-items:center"><span class="state" id="policeState">No</span><input type="checkbox" id="policeSwitch" role="switch"><span class="track" aria-hidden="true"></span></span></label>
+      <label class="lbl" for="reportNo">Report number (if you filed one)</label>
+      <input class="txt" id="reportNo" type="text" style="margin-bottom:12px">
+      <label class="sw" for="hurtSwitch"><span>Someone was hurt</span><span style="display:flex;gap:10px;align-items:center"><span class="state" id="hurtState">No</span><input type="checkbox" id="hurtSwitch" role="switch"><span class="track" aria-hidden="true"></span></span></label>
+      <p class="err">Add the report number, or switch off the police report.</p>
+    </div>
+
+    <div class="q" data-key="story">
+      <h2>Tell us in your own words</h2>
+      <label class="lbl" for="story">What happened</label>
+      <textarea class="txt" id="story"></textarea>
+      <p class="err">A sentence or two is enough.</p>
+    </div>
+
+    <div class="q" data-key="channel">
+      <h2>How should we keep you updated?</h2>
+      <div class="seg" role="radiogroup" aria-label="Update channel">
+        <label><input type="radio" name="channel" value="Email"><span>Email</span></label>
+        <label><input type="radio" name="channel" value="Call"><span>Call</span></label>
+        <label><input type="radio" name="channel" value="WhatsApp"><span>WhatsApp</span></label>
+      </div>
+      <p class="err">Pick one.</p>
+    </div>
+
+    <div class="q" data-key="truth">
+      <label class="sw" for="truthSwitch"><span>Everything I've told you is true and complete.</span><span style="display:flex;gap:10px;align-items:center"><input type="checkbox" id="truthSwitch" role="switch"><span class="track" aria-hidden="true"></span></span></label>
+      <p class="err">Confirm this to send your claim.</p>
+    </div>
+
+    <div class="send">
+      <button class="btn" type="submit" id="sendBtn">Send claim</button>
+      <p class="summary-bad" id="badNote" role="alert"></p>
+    </div>
+  </form>
+</section>
+
+<section id="done" aria-live="polite">
+  <h1>Claim sent.</h1>
+  <p class="ref">Your reference is <b id="ref"></b>. We'll message you within the hour.</p>
+  <div class="stats">
+    <div><b id="sForm">–</b>First tap to send</div>
+    <div><b id="sLoad">–</b>Page load to send</div>
+    <div><b id="sAt">–</b>Sent at</div>
+  </div>
+  <dl class="recap" id="recap"></dl>
+  <div class="send"><button class="btn ghost" type="button" id="againBtn">Start another claim</button></div>
+</section>
+</main>
+
+<script>
+(function(){
+  const COUNTRIES=["Austria","Belgium","Bulgaria","Croatia","Czechia","France","Germany","Greece","Hungary","Italy","Netherlands","Poland","Portugal","Romania","Spain","United Kingdom"];
+  const MAKES=["Audi","BMW","Dacia","Fiat","Ford","Hyundai","Kia","Mercedes-Benz","Peugeot","Renault","Skoda","Toyota","Volkswagen","Volvo"];
+  const PARTS=["Front bumper","Rear bumper","Bonnet","Doors","Windscreen","Headlights","Tail lights","Mirrors"];
+  const SEV=["","Scratch","Minor","Moderate","Major","Wrecked"];
+  const MON=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  const $=s=>document.querySelector(s);
+  const form=$('#velaForm');
+  const pad=n=>String(n).padStart(2,'0');
+  const isoOf=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+  const todayISO=isoOf(new Date());
+
+  /* ---------- custom dropdown ---------- */
+  const chevron='<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 6l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  const dds={};
+  function makeDD(root,items){
+    const id=root.dataset.id, ph=root.dataset.ph, search=!!root.dataset.search;
+    root.innerHTML='<button type="button" class="dd-btn" id="'+id+'" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="'+root.dataset.labelledby+' '+id+'"><span class="ph">'+ph+'</span>'+chevron+'</button>'+
+      '<div class="dd-pop" hidden>'+(search?'<input class="dd-search" type="text" placeholder="Type to search" aria-label="Search">':'')+'<ul class="dd-list" role="listbox"></ul></div>';
+    const btn=root.querySelector('.dd-btn'), pop=root.querySelector('.dd-pop'), list=root.querySelector('.dd-list'), sInput=root.querySelector('.dd-search');
+    let value='', active=-1;
+    function render(filter){
+      const f=(filter||'').toLowerCase();
+      const shown=items.filter(v=>v.toLowerCase().includes(f));
+      list.innerHTML=shown.length?shown.map(v=>'<li role="option" data-v="'+v+'" aria-selected="'+(v===value)+'">'+v+'</li>').join(''):'<li class="dd-empty" aria-disabled="true">No matches</li>';
+      active=shown.length?0:-1; paint();
+    }
+    function paint(){[...list.querySelectorAll('li[data-v]')].forEach((li,i)=>li.classList.toggle('active',i===active))}
+    function open(prefill){
+      closeAll(root); pop.hidden=false; btn.setAttribute('aria-expanded','true');
+      if(sInput){sInput.value=prefill||''; render(sInput.value); sInput.focus();} else {render(''); const i=items.indexOf(value); if(i>=0){active=i;paint();list.children[i].scrollIntoView({block:'nearest'})}}
+    }
+    function close(){pop.hidden=true;btn.setAttribute('aria-expanded','false')}
+    function set(v){value=v; btn.querySelector('span').textContent=v||ph; btn.querySelector('span').className=v?'':'ph'; close(); form.dispatchEvent(new Event('change'))}
+    btn.addEventListener('click',()=>pop.hidden?open():close());
+    btn.addEventListener('keydown',e=>{
+      if(!pop.hidden&&!sInput){keys(e);return}
+      if(e.key.length===1&&/\S/.test(e.key)&&sInput){e.preventDefault();open(e.key)}
+      else if(e.key==='ArrowDown'||e.key==='Enter'||e.key===' '){e.preventDefault();open()}
+    });
+    list.addEventListener('mousedown',e=>e.preventDefault());
+    list.addEventListener('click',e=>{const li=e.target.closest('li[data-v]'); if(li){set(li.dataset.v);btn.focus()}});
+    function keys(e){
+      const opts=[...list.querySelectorAll('li[data-v]')];
+      if(e.key==='ArrowDown'){e.preventDefault();active=Math.min(opts.length-1,active+1);paint();opts[active]&&opts[active].scrollIntoView({block:'nearest'})}
+      else if(e.key==='ArrowUp'){e.preventDefault();active=Math.max(0,active-1);paint();opts[active]&&opts[active].scrollIntoView({block:'nearest'})}
+      else if(e.key==='Enter'){e.preventDefault(); if(opts[active]){set(opts[active].dataset.v);btn.focus()}}
+      else if(e.key==='Escape'||e.key==='Tab'){close()}
+    }
+    if(sInput){sInput.addEventListener('input',()=>render(sInput.value));sInput.addEventListener('keydown',keys)}
+    dds[id]={get:()=>value,set,close,root};
+  }
+  function closeAll(except){Object.values(dds).forEach(d=>{if(d.root!==except)d.close()}); document.querySelectorAll('.dp-pop').forEach(p=>{if(!except||!except.contains(p))p.hidden=true})}
+  document.addEventListener('click',e=>{
+    Object.values(dds).forEach(d=>{if(!d.root.contains(e.target))d.close()});
+    document.querySelectorAll('.dp').forEach(dp=>{if(!dp.contains(e.target))dp.querySelector('.dp-pop').hidden=true});
+  });
+
+  const hours=[...Array(24)].map((_,i)=>pad(i)), mins=[...Array(12)].map((_,i)=>pad(i*5));
+  document.querySelectorAll('.dd').forEach(r=>{
+    const map={whenHour:hours,whenMinute:mins,countryPick:COUNTRIES,carBrand:MAKES};
+    makeDD(r,map[r.dataset.id]);
+  });
+
+  /* ---------- date picker ---------- */
+  function parseDate(s){
+    s=(s||'').trim(); if(!s) return null; let y,m,d,r;
+    if((r=s.match(/^(\d{4})[-\/.](\d{1,2})[-\/.](\d{1,2})$/))){y=+r[1];m=+r[2];d=+r[3]}
+    else if((r=s.match(/^(\d{1,2})[-\/. ](\d{1,2})[-\/. ](\d{4})$/))){d=+r[1];m=+r[2];y=+r[3]}
+    else if((r=s.match(/^(\d{1,2})\s+([A-Za-z]{3,})\.?,?\s+(\d{4})$/))){d=+r[1];m=MON.findIndex(x=>r[2].toLowerCase().startsWith(x.toLowerCase()))+1;y=+r[3]}
+    else if((r=s.match(/^([A-Za-z]{3,})\.?\s+(\d{1,2}),?\s+(\d{4})$/))){m=MON.findIndex(x=>r[1].toLowerCase().startsWith(x.toLowerCase()))+1;d=+r[2];y=+r[3]}
+    else return null;
+    const dt=new Date(y,m-1,d); if(!m||dt.getMonth()!==m-1||dt.getDate()!==d) return null; return dt;
+  }
+  const fmt=d=>d.getDate()+' '+MON[d.getMonth()]+' '+d.getFullYear();
+  const calIcon='<svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="4" width="15" height="13" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M2.5 8.5h15M6.5 2v4M13.5 2v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
+  const dps={};
+  document.querySelectorAll('.dp').forEach(root=>{
+    const input=root.querySelector('input');
+    const min=parseDate(root.dataset.min), max=new Date();
+    max.setHours(0,0,0,0);
+    const tgl=document.createElement('button'); tgl.type='button'; tgl.className='dp-toggle'; tgl.setAttribute('aria-label','Open calendar for '+(input.id==='birthday'?'birthday':'incident date')); tgl.innerHTML=calIcon;
+    const pop=document.createElement('div'); pop.className='dp-pop'; pop.hidden=true; pop.setAttribute('role','dialog'); pop.setAttribute('aria-label','Choose a date');
+    root.append(tgl,pop);
+    let sel=null, view=new Date(max.getFullYear(),max.getMonth(),1);
+    const years=[]; for(let y=max.getFullYear();y>=min.getFullYear();y--)years.push(y);
+    function draw(){
+      const y=view.getFullYear(), m=view.getMonth();
+      let h='<div class="dp-head"><button type="button" class="dp-nav" data-nav="-1" aria-label="Previous month">‹</button><select aria-label="Month" data-f="m">'+MON.map((x,i)=>'<option value="'+i+'"'+(i===m?' selected':'')+'>'+x+'</option>').join('')+'</select><select aria-label="Year" data-f="y">'+years.map(v=>'<option'+(v===y?' selected':'')+'>'+v+'</option>').join('')+'</select><button type="button" class="dp-nav" data-nav="1" aria-label="Next month">›</button></div><div class="dp-grid">';
+      h+=['Mo','Tu','We','Th','Fr','Sa','Su'].map(d=>'<span class="dow">'+d+'</span>').join('');
+      const first=(new Date(y,m,1).getDay()+6)%7, days=new Date(y,m+1,0).getDate();
+      for(let i=0;i<first;i++)h+='<span></span>';
+      for(let d=1;d<=days;d++){const dt=new Date(y,m,d); const dis=dt<min||dt>max; const cls=[sel&&isoOf(sel)===isoOf(dt)?'sel':'',isoOf(dt)===todayISO?'today':''].join(' ');
+        h+='<button type="button" data-d="'+d+'" class="'+cls+'"'+(dis?' disabled':'')+' aria-label="'+fmt(dt)+'">'+d+'</button>'}
+      pop.innerHTML=h+'</div>';
+    }
+    pop.addEventListener('click',e=>{
+      e.stopPropagation();
+      const n=e.target.closest('[data-nav]'); if(n){view.setMonth(view.getMonth()+(+n.dataset.nav)); draw(); return}
+      const b=e.target.closest('button[data-d]'); if(b){sel=new Date(view.getFullYear(),view.getMonth(),+b.dataset.d); input.value=fmt(sel); pop.hidden=true; input.focus(); form.dispatchEvent(new Event('change'))}
+    });
+    pop.addEventListener('change',e=>{const f=e.target.dataset.f; if(f==='m')view.setMonth(+e.target.value); if(f==='y')view.setFullYear(+e.target.value); draw()});
+    pop.addEventListener('keydown',e=>{if(e.key==='Escape'){pop.hidden=true;input.focus()}});
+    tgl.addEventListener('click',()=>{ if(pop.hidden){closeAll(root); const p=parseDate(input.value); if(p){sel=p;view=new Date(p.getFullYear(),p.getMonth(),1)} draw(); pop.hidden=false; const t=pop.querySelector('.sel')||pop.querySelector('select'); t&&t.focus()} else pop.hidden=true });
+    const commit=()=>{const p=parseDate(input.value); if(p){sel=p; input.value=fmt(p)} else if(!input.value.trim()) sel=null; else sel=null; };
+    input.addEventListener('blur',commit);
+    input.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();commit()}});
+    dps[input.id]={get:()=>{const p=parseDate(input.value); if(!p||p<min||p>max) return null; return p}};
+  });
+
+  /* ---------- chips ---------- */
+  $('#chips').innerHTML=PARTS.map(p=>'<button type="button" class="chip" aria-pressed="false" data-part="'+p+'">'+p+'</button>').join('');
+  $('#chips').addEventListener('click',e=>{const c=e.target.closest('.chip'); if(!c)return; c.setAttribute('aria-pressed',c.getAttribute('aria-pressed')==='true'?'false':'true'); form.dispatchEvent(new Event('change'))});
+  const parts=()=>[...document.querySelectorAll('.chip[aria-pressed="true"]')].map(c=>c.dataset.part);
+
+  /* ---------- stepper ---------- */
+  const yr=$('#carYear'), curY=new Date().getFullYear();
+  const bump=d=>{let v=parseInt(yr.value,10); if(isNaN(v))v=curY; else v+=d; v=Math.max(1980,Math.min(2027,v)); yr.value=v; form.dispatchEvent(new Event('change'))};
+  $('#yearDown').addEventListener('click',()=>bump(-1)); $('#yearUp').addEventListener('click',()=>bump(1));
+  yr.addEventListener('input',()=>{yr.value=yr.value.replace(/\D/g,'').slice(0,4)});
+
+  /* ---------- slider ---------- */
+  let sevTouched=false; const sr=$('#severityRange'), so=$('#sevOut');
+  const sevPaint=()=>{so.textContent=sr.value+' · '+SEV[sr.value]; so.classList.remove('unset')};
+  ['input','change'].forEach(ev=>sr.addEventListener(ev,()=>{sevTouched=true;sevPaint()}));
+  sr.addEventListener('pointerdown',()=>{sevTouched=true;sevPaint()});
+
+  /* ---------- money ---------- */
+  const rc=$('#repairCost');
+  const money=()=>{const n=parseFloat(rc.value.replace(/[^\d.]/g,'')); return isNaN(n)?null:n};
+  rc.addEventListener('blur',()=>{const n=money(); if(n!==null)rc.value=n.toLocaleString('en-US',{maximumFractionDigits:2})});
+
+  /* ---------- switches ---------- */
+  [['policeSwitch','policeState'],['hurtSwitch','hurtState']].forEach(([s,t])=>{$('#'+s).addEventListener('change',()=>{$('#'+t).textContent=$('#'+s).checked?'Yes':'No'})});
+
+  /* ---------- progress + timing ---------- */
+  const tLoad=performance.now(); let tFirst=null;
+  ['pointerdown','keydown','input','focusin'].forEach(ev=>form.addEventListener(ev,()=>{if(tFirst===null)tFirst=performance.now()},true));
+  const v=id=>($('#'+id).value||'').trim();
+  const radio=n=>{const r=form.querySelector('input[name="'+n+'"]:checked');return r?r.value:''};
+  const checks={
+    fullName:()=>v('fullName').split(/\s+/).length>=2,
+    contactInfo:()=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v('emailAddr'))&&v('mobile').replace(/\D/g,'').length>=6,
+    birthday:()=>!!dps.birthday.get(),
+    policyId:()=>!!v('policyId'),
+    claimKind:()=>!!radio('claimKind'),
+    when:()=>!!dps.whenDate.get()&&!!dds.whenHour.get()&&!!dds.whenMinute.get(),
+    where:()=>!!v('town')&&!!dds.countryPick.get(),
+    car:()=>!!dds.carBrand.get()&&(+v('carYear')>=1980&&+v('carYear')<=2027)&&!!v('numberPlate'),
+    damage:()=>parts().length>0,
+    severity:()=>sevTouched,
+    cost:()=>money()!==null,
+    police:()=>!$('#policeSwitch').checked||!!v('reportNo'),
+    story:()=>!!v('story'),
+    channel:()=>!!radio('channel'),
+    truth:()=>$('#truthSwitch').checked
+  };
+  const TOTAL=20;
+  function progress(){
+    const n=[v('fullName'),v('emailAddr'),v('mobile'),dps.birthday.get(),v('policyId'),radio('claimKind'),dps.whenDate.get(),dds.whenHour.get(),dds.whenMinute.get(),v('town'),dds.countryPick.get(),dds.carBrand.get(),v('carYear'),v('numberPlate'),parts().length,sevTouched,money()!==null?1:0,v('story'),radio('channel'),$('#truthSwitch').checked].filter(Boolean).length;
+    $('#count').textContent=n+' of '+TOTAL+' answered'; $('#bar').style.width=(n/TOTAL*100)+'%';
+  }
+  form.addEventListener('input',progress); form.addEventListener('change',progress);
+  document.addEventListener('focusout',()=>setTimeout(progress,0));
+
+  form.addEventListener('submit',e=>{
+    e.preventDefault(); closeAll(null);
+    const bad=[];
+    document.querySelectorAll('.q').forEach(q=>{const ok=checks[q.dataset.key](); q.classList.toggle('bad',!ok); if(!ok)bad.push(q)});
+    const note=$('#badNote');
+    if(bad.length){note.textContent=bad.length===1?'One answer is missing.':bad.length+' answers are missing.'; note.classList.add('show'); bad[0].scrollIntoView({block:'center'}); return}
+    note.classList.remove('show');
+    const now=performance.now();
+    const rows=[
+      ['Full name',v('fullName')],['Email',v('emailAddr')],['Mobile',v('mobile')],['Birthday',fmt(dps.birthday.get())],['Policy ID',v('policyId')],
+      ['Claim type',radio('claimKind')],['Date',fmt(dps.whenDate.get())],['Time',dds.whenHour.get()+':'+dds.whenMinute.get()],
+      ['City',v('town')],['Country',dds.countryPick.get()],['Brand',dds.carBrand.get()],['Model year',v('carYear')],['Number plate',v('numberPlate')],
+      ['Damaged parts',parts().join(', ')],['Severity',sr.value+' · '+SEV[sr.value]],['Repair estimate','€ '+money().toLocaleString('en-US')],
+      ['Police report',$('#policeSwitch').checked?'Yes':'No'],['Report number',v('reportNo')||'None'],['Someone hurt',$('#hurtSwitch').checked?'Yes':'No'],
+      ['What happened',v('story')],['Updates via',radio('channel')],['Confirmed true','Yes']
+    ];
+    const dl=$('#recap'); dl.innerHTML='';
+    rows.forEach(([k,val])=>{const d=document.createElement('div');const dt=document.createElement('dt');dt.textContent=k;const dd=document.createElement('dd');dd.textContent=val;d.append(dt,dd);dl.append(d)});
+    $('#ref').textContent='VL'+Math.random().toString(36).slice(2,8).toUpperCase();
+    $('#sForm').textContent=tFirst===null?'–':((now-tFirst)/1000).toFixed(1)+' s';
+    $('#sLoad').textContent=((now-tLoad)/1000).toFixed(1)+' s';
+    $('#sAt').textContent=new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+    window.lastSubmission=Object.fromEntries(rows);
+    $('#formView').style.display='none'; $('#done').classList.add('show'); window.scrollTo(0,0);
+  });
+  $('#againBtn').addEventListener('click',()=>location.reload());
+  progress();
+})();
+</script>
+</body>
+</html>

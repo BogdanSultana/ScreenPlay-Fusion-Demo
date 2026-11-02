@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Form KC-7 Motor Loss Notification · Kestrel Motor Underwriters</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@500;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#E4E9DA; --sheet:#FBFCF6; --green:#1E5B3A; --green-ink:#FFFFFF; --stamp:#B3261E; --ink:#000000;
+  --field:#FFFFFF; --rule:#1E5B3A; --faint:#C9D4BF; --muted:#4D6656; --office:#E9ECE3;
+  color-scheme:light; box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0C1610; --sheet:#132219; --green:#8FD1A8; --green-ink:#0C1610; --stamp:#FF7B6E; --ink:#F2F5EC;
+    --field:#0E1A13; --rule:#5E9C77; --faint:#2A4234; --muted:#9DB7A6; --office:#1A2A20; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0C1610; --sheet:#132219; --green:#8FD1A8; --green-ink:#0C1610; --stamp:#FF7B6E; --ink:#F2F5EC;
+  --field:#0E1A13; --rule:#5E9C77; --faint:#2A4234; --muted:#9DB7A6; --office:#1A2A20; color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 20px)}
+body{margin:0;background:var(--paper);color:var(--green);font:500 15px/1.35 "Archivo Narrow","Arial Narrow",Arial,sans-serif;padding:28px 16px 60px}
+.sheet{max-width:900px;margin:0 auto;background:var(--sheet);border:2px solid var(--rule);box-shadow:6px 6px 0 var(--faint)}
+.head{display:grid;grid-template-columns:1.2fr 2fr 1fr;border-bottom:2px solid var(--rule)}
+.head > div{padding:14px 16px}
+.head > div + div{border-left:2px solid var(--rule)}
+.crest{display:flex;gap:10px;align-items:center;font-weight:700;font-size:1.05rem;line-height:1.1}
+.title h1{margin:0;font-size:1.9rem;line-height:1;font-weight:700;letter-spacing:-.01em}
+.title p{margin:6px 0 0;font-size:.95rem;color:var(--muted)}
+.formno{text-align:right;font-weight:700}
+.formno b{display:block;font-size:2rem;line-height:1}
+.formno span{font-weight:500;font-size:.85rem;color:var(--muted)}
+.instr{margin:0;padding:10px 16px;border-bottom:2px solid var(--rule);font-size:.95rem}
+.instr strong{color:var(--stamp)}
+.sec{border-bottom:2px solid var(--rule)}
+.sec:last-of-type{border-bottom:0}
+.sec h2{margin:0;background:var(--green);color:var(--green-ink);font-size:1.05rem;font-weight:700;padding:6px 16px;display:flex;gap:14px}
+.sec h2 span{opacity:.85}
+.cells{display:grid;grid-template-columns:repeat(6,minmax(0,1fr))}
+.cell{border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:8px 12px 10px;min-width:0;position:relative}
+.c2{grid-column:span 2}.c3{grid-column:span 3}.c4{grid-column:span 4}.c6{grid-column:span 6}
+.cells > .cell:last-child{border-bottom:0}
+.lab{display:block;font-weight:600;font-size:.92rem;margin-bottom:4px}
+.lab i{font-style:normal;color:var(--muted);margin-right:6px;font-variant-numeric:tabular-nums}
+.req{color:var(--stamp)}
+input[type=text],input[type=tel],input[type=email],select,textarea{
+  width:100%;font:400 1rem/1.2 "Courier Prime","Courier New",monospace;color:var(--ink);background:var(--field);
+  border:0;border-bottom:1.5px solid var(--rule);border-radius:0;padding:7px 4px;min-height:36px;outline:none}
+select{border:1.5px solid var(--rule);padding:6px 4px}
+textarea{border:1.5px solid var(--rule);min-height:110px;resize:vertical;line-height:1.45}
+input:focus,select:focus,textarea:focus{background:color-mix(in srgb, var(--field) 80%, #FFE98A)}
+:focus-visible{outline:2px dashed var(--stamp);outline-offset:2px}
+input[readonly]{background:transparent;border-bottom-style:dotted;color:var(--muted)}
+.upper{text-transform:uppercase}
+.split{display:flex;align-items:center;gap:6px}
+.split input{text-align:center;padding:7px 2px}
+.split .d2{width:3.2em}.split .d4{width:4.8em}
+.split span{font-family:"Courier Prime",monospace;color:var(--muted)}
+.split select{width:auto;min-width:4.4em}
+.split select.mon{min-width:8.5em}
+.codes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px 14px;padding-top:2px}
+.opt{display:flex;align-items:center;gap:7px;cursor:pointer;font-weight:500}
+.opt input{width:16px;height:16px;margin:0;accent-color:var(--green)}
+.opt code{font:700 .9rem "Courier Prime",monospace;color:var(--muted)}
+.matrix,.sev{border-collapse:collapse;width:100%;margin-top:4px}
+.matrix th,.matrix td,.sev th,.sev td{border:1px solid var(--rule);padding:6px 8px;text-align:left;font-weight:500}
+.matrix th[scope=row]{width:18%;font-weight:700;background:var(--office)}
+.matrix td.na{background:repeating-linear-gradient(135deg,transparent 0 5px,var(--faint) 5px 6px)}
+.sev th{font-weight:600;text-align:center;font-size:.88rem}
+.sev td{text-align:center}
+.sev input{width:18px;height:18px;accent-color:var(--green)}
+.tw{overflow-x:auto}
+.counter{position:absolute;right:12px;top:8px;font-size:.82rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.decl{display:flex;gap:10px;align-items:flex-start;font-weight:500;font-size:1rem;cursor:pointer}
+.decl input{width:18px;height:18px;margin-top:2px;accent-color:var(--green);flex:none}
+.office{background:var(--office)}
+.office .lab{color:var(--muted)}
+.office input{background:transparent;border-bottom-style:dashed}
+.foot{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;padding:14px 16px;border-top:2px solid var(--rule)}
+.foot p{margin:0;color:var(--muted);font-size:.9rem;max-width:52ch}
+.btn{font:700 1.05rem "Archivo Narrow",Arial,sans-serif;background:var(--green);color:var(--green-ink);border:2px solid var(--green);padding:11px 26px;cursor:pointer;border-radius:0}
+.btn:hover{box-shadow:3px 3px 0 var(--stamp)}
+.cell.bad{background:color-mix(in srgb, var(--stamp) 9%, var(--sheet))}
+.cell.bad::after{content:"Required, see guidance";position:absolute;right:10px;bottom:6px;font-size:.78rem;color:var(--stamp);font-weight:700}
+.cell.bad[data-msg]::after{content:attr(data-msg)}
+.errbox{display:none;margin:0;padding:10px 16px;border-bottom:2px solid var(--stamp);color:var(--stamp);font-weight:700}
+.errbox.show{display:block}
+#lodged{display:none}
+#lodged.show{display:block}
+.stampbox{margin:22px 16px;border:3px solid var(--stamp);color:var(--stamp);padding:14px 18px;display:inline-block;transform:rotate(-1.5deg)}
+.stampbox b{display:block;font-size:1.8rem;line-height:1.05}
+.stampbox span{font-family:"Courier Prime",monospace;font-weight:700;font-size:1.1rem;color:var(--ink)}
+.times{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:2px solid var(--rule);border-bottom:2px solid var(--rule)}
+.times div{padding:10px 16px;font-size:.9rem;color:var(--muted)}
+.times div + div{border-left:1px solid var(--rule)}
+.times b{display:block;font:700 1.5rem "Courier Prime",monospace;color:var(--ink)}
+.recap{width:100%;border-collapse:collapse}
+.recap th,.recap td{border-bottom:1px solid var(--rule);padding:7px 16px;text-align:left;vertical-align:top}
+.recap th{width:36%;font-weight:600}
+.recap td{font-family:"Courier Prime",monospace;color:var(--ink);overflow-wrap:anywhere}
+@media (max-width:760px){
+  body{padding:12px 8px 40px}
+  .head{grid-template-columns:1fr}
+  .head > div + div{border-left:0;border-top:2px solid var(--rule)}
+  .formno{text-align:left}
+  .cells{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .c2{grid-column:span 1}.c3,.c4,.c6{grid-column:span 2}
+  .codes{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .times{grid-template-columns:1fr}
+  .times div + div{border-left:0;border-top:1px solid var(--rule)}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="head">
+    <div class="crest">
+      <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><rect x="2" y="2" width="36" height="36" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 26c6-2 10-8 12-16 2 8 6 14 12 16-5 0-9 2-12 6-3-4-7-6-12-6z" fill="currentColor"/></svg>
+      <span>Kestrel Motor<br>Underwriters</span>
+    </div>
+    <div class="title">
+      <h1>Motor Loss Notification</h1>
+      <p>To be completed by the insured person within 7 days of the loss.</p>
+    </div>
+    <div class="formno"><b>KC-7</b><span>Revision 03/2026</span></div>
+  </div>
+
+  <section id="formView">
+    <p class="instr">Complete every section. Fields marked <strong>◆</strong> are mandatory. Do not write in the Office use only panel.</p>
+    <p class="errbox" id="errbox" role="alert"></p>
+    <form id="kc7" novalidate autocomplete="off">
+
+      <div class="sec">
+        <h2><span>Section 1</span>Policy</h2>
+        <div class="cells">
+          <div class="cell c6" data-v="policyNo"><label class="lab" for="policyNo"><i>1.1</i>Policy no. <span class="req">◆</span></label><input type="text" id="policyNo" class="upper"></div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <h2><span>Section 2</span>Insured person</h2>
+        <div class="cells">
+          <div class="cell c3" data-v="surname"><label class="lab" for="surname"><i>2.1</i>Surname <span class="req">◆</span></label><input type="text" id="surname" class="upper"></div>
+          <div class="cell c3" data-v="forenames"><label class="lab" for="forenames"><i>2.2</i>Forename(s) <span class="req">◆</span></label><input type="text" id="forenames" class="upper"></div>
+          <div class="cell c3" data-v="dob"><span class="lab" id="dobLab"><i>2.3</i>Date of birth <span class="req">◆</span></span>
+            <div class="split" role="group" aria-labelledby="dobLab">
+              <select id="dobDay" aria-label="Day of birth"></select>
+              <select id="dobMonth" class="mon" aria-label="Month of birth"></select>
+              <select id="dobYear" aria-label="Year of birth"></select>
+            </div></div>
+          <div class="cell c3" data-v="tel"><label class="lab" for="tel"><i>2.4</i>Telephone (incl. country code) <span class="req">◆</span></label><input type="tel" id="tel"></div>
+          <div class="cell c6" data-v="mail"><label class="lab" for="mail"><i>2.5</i>E-mail address <span class="req">◆</span></label><input type="email" id="mail"></div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <h2><span>Section 3</span>Particulars of loss</h2>
+        <div class="cells">
+          <div class="cell c3" data-v="lossDate"><span class="lab" id="lossLab"><i>3.1</i>Date of loss (DD / MM / YYYY) <span class="req">◆</span></span>
+            <div class="split" role="group" aria-labelledby="lossLab">
+              <input type="text" id="lossDD" class="d2" maxlength="10" inputmode="numeric" aria-label="Day of loss" placeholder="DD"><span>/</span>
+              <input type="text" id="lossMM" class="d2" maxlength="2" inputmode="numeric" aria-label="Month of loss" placeholder="MM"><span>/</span>
+              <input type="text" id="lossYYYY" class="d4" maxlength="4" inputmode="numeric" aria-label="Year of loss" placeholder="YYYY">
+            </div></div>
+          <div class="cell c3" data-v="lossTime"><span class="lab" id="timeLab"><i>3.2</i>Time of loss, 24-hour <span class="req">◆</span></span>
+            <div class="split" role="group" aria-labelledby="timeLab">
+              <select id="lossHour" aria-label="Hour of loss"></select><span>:</span>
+              <select id="lossMinute" aria-label="Minute of loss"></select>
+            </div></div>
+          <div class="cell c6" data-v="nature"><span class="lab" id="natLab"><i>3.3</i>Nature of loss, select one <span class="req">◆</span></span>
+            <div class="codes" role="radiogroup" aria-labelledby="natLab">
+              <label class="opt"><input type="radio" name="nature" value="Collision"><code>C1</code>Collision</label>
+              <label class="opt"><input type="radio" name="nature" value="Theft"><code>C2</code>Theft</label>
+              <label class="opt"><input type="radio" name="nature" value="Vandalism"><code>C3</code>Vandalism</label>
+              <label class="opt"><input type="radio" name="nature" value="Weather damage"><code>C4</code>Weather damage</label>
+              <label class="opt"><input type="radio" name="nature" value="Glass damage"><code>C5</code>Glass damage</label>
+              <label class="opt"><input type="radio" name="nature" value="Fire"><code>C6</code>Fire</label>
+            </div></div>
+          <div class="cell c3" data-v="lossTown"><label class="lab" for="lossTown"><i>3.4</i>Place of loss, town <span class="req">◆</span></label><input type="text" id="lossTown" class="upper"></div>
+          <div class="cell c3" data-v="lossCountry"><label class="lab" for="lossCountry"><i>3.5</i>Place of loss, country <span class="req">◆</span></label><input type="text" id="lossCountry" list="countryList" class="upper"><datalist id="countryList"></datalist></div>
+          <div class="cell c6" data-v="circ"><label class="lab" for="circ"><i>3.6</i>Circumstances of the loss <span class="req">◆</span></label><span class="counter" id="circCount">0 / 600</span><textarea id="circ" maxlength="600"></textarea></div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <h2><span>Section 4</span>Insured vehicle</h2>
+        <div class="cells">
+          <div class="cell c2" data-v="vMake"><label class="lab" for="vMake"><i>4.1</i>Make <span class="req">◆</span></label><input type="text" id="vMake" list="makeList" class="upper"><datalist id="makeList"></datalist></div>
+          <div class="cell c2" data-v="vYear"><label class="lab" for="vYear"><i>4.2</i>Year of manufacture <span class="req">◆</span></label><select id="vYear"></select></div>
+          <div class="cell c2" data-v="vReg"><label class="lab" for="vReg"><i>4.3</i>Registration mark <span class="req">◆</span></label><input type="text" id="vReg" class="upper"></div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <h2><span>Section 5</span>Extent of damage</h2>
+        <div class="cells">
+          <div class="cell c6" data-v="matrix"><span class="lab" id="mxLab"><i>5.1</i>Parts damaged, tick each part affected <span class="req">◆</span></span>
+            <div class="tw"><table class="matrix" aria-labelledby="mxLab"><tbody>
+              <tr><th scope="row">Front</th>
+                <td><label class="opt"><input type="checkbox" name="part" value="Front bumper" aria-label="Front bumper">Bumper</label></td>
+                <td><label class="opt"><input type="checkbox" name="part" value="Bonnet" aria-label="Bonnet">Bonnet</label></td>
+                <td><label class="opt"><input type="checkbox" name="part" value="Headlights" aria-label="Headlights">Headlamps</label></td></tr>
+              <tr><th scope="row">Rear</th>
+                <td><label class="opt"><input type="checkbox" name="part" value="Rear bumper" aria-label="Rear bumper">Bumper</label></td>
+                <td><label class="opt"><input type="checkbox" name="part" value="Tail lights" aria-label="Tail lights">Rear lamps</label></td>
+                <td class="na" aria-hidden="true"></td></tr>
+              <tr><th scope="row">Sides</th>
+                <td><label class="opt"><input type="checkbox" name="part" value="Doors" aria-label="Doors">Doors</label></td>
+                <td><label class="opt"><input type="checkbox" name="part" value="Mirrors" aria-label="Mirrors">Wing mirrors</label></td>
+                <td class="na" aria-hidden="true"></td></tr>
+              <tr><th scope="row">Glazing</th>
+                <td><label class="opt"><input type="checkbox" name="part" value="Windscreen" aria-label="Windscreen">Windscreen</label></td>
+                <td class="na" aria-hidden="true"></td><td class="na" aria-hidden="true"></td></tr>
+            </tbody></table></div></div>
+          <div class="cell c2" data-v="cost"><label class="lab" for="cost"><i>5.2</i>Estimated cost of repair, EUR <span class="req">◆</span></label><input type="text" id="cost" inputmode="decimal"></div>
+          <div class="cell c4" data-v="sev"><span class="lab" id="sevLab"><i>5.3</i>Severity grade <span class="req">◆</span></span>
+            <div class="tw"><table class="sev" aria-labelledby="sevLab">
+              <thead><tr><th scope="col">1<br>Cosmetic</th><th scope="col">2<br>Minor</th><th scope="col">3<br>Moderate</th><th scope="col">4<br>Major</th><th scope="col">5<br>Total loss</th></tr></thead>
+              <tbody><tr>
+                <td><input type="radio" name="sev" value="1" aria-label="Grade 1, cosmetic"></td>
+                <td><input type="radio" name="sev" value="2" aria-label="Grade 2, minor"></td>
+                <td><input type="radio" name="sev" value="3" aria-label="Grade 3, moderate"></td>
+                <td><input type="radio" name="sev" value="4" aria-label="Grade 4, major"></td>
+                <td><input type="radio" name="sev" value="5" aria-label="Grade 5, total loss"></td>
+              </tr></tbody></table></div></div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <h2><span>Section 6</span>Police and third parties</h2>
+        <div class="cells">
+          <div class="cell c2" data-v="reported"><label class="lab" for="reported"><i>6.1</i>Reported to police? <span class="req">◆</span></label>
+            <select id="reported"><option value="">Select</option><option>Yes</option><option>No</option></select></div>
+          <div class="cell c4" data-v="policeRef"><label class="lab" for="policeRef"><i>6.2</i>Police reference, if reported</label><input type="text" id="policeRef" class="upper"></div>
+          <div class="cell c6"><label class="decl" for="injured"><input type="checkbox" id="injured"><span><i style="font-style:normal;color:var(--muted);margin-right:6px">6.3</i>Tick this box if any person was injured in connection with the loss.</span></label></div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <h2><span>Section 7</span>Correspondence</h2>
+        <div class="cells">
+          <div class="cell c6" data-v="corr"><label class="lab" for="corr"><i>7.1</i>Send correspondence by <span class="req">◆</span></label>
+            <select id="corr" style="max-width:260px"><option value="">Select</option><option>E-mail</option><option>Telephone</option><option>Post</option></select></div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <h2><span>Section 8</span>Declaration</h2>
+        <div class="cells">
+          <div class="cell c4" data-v="decl" data-msg="Declaration must be ticked"><label class="decl" for="declare"><input type="checkbox" id="declare"><span>I declare that the particulars given on this form are true and that I have withheld no material fact. <span class="req">◆</span></span></label></div>
+          <div class="cell c2"><label class="lab" for="notifDate"><i>8.2</i>Date of notification</label><input type="text" id="notifDate" readonly></div>
+        </div>
+      </div>
+
+      <div class="sec office" aria-label="Office use only">
+        <h2 style="background:var(--muted)"><span>Office use only</span>Do not complete</h2>
+        <div class="cells">
+          <div class="cell c2"><label class="lab" for="offHandler">Handler code</label><input type="text" id="offHandler" disabled></div>
+          <div class="cell c2"><label class="lab" for="offReserve">Reserve, EUR</label><input type="text" id="offReserve" disabled></div>
+          <div class="cell c2"><label class="lab" for="offRecv">Received</label><input type="text" id="offRecv" disabled></div>
+        </div>
+      </div>
+
+      <div class="foot">
+        <p>Lodging this form opens your claim. Keep your reference number for all correspondence.</p>
+        <button type="submit" class="btn" id="lodgeBtn">Lodge notification</button>
+      </div>
+    </form>
+  </section>
+
+  <section id="lodged" aria-live="polite">
+    <div class="stampbox"><b>Notification lodged</b><span id="kref"></span></div>
+    <div class="times">
+      <div><b id="kForm">–</b>First entry to lodgement</div>
+      <div><b id="kLoad">–</b>Form opened to lodgement</div>
+      <div><b id="kAt">–</b>Lodged at</div>
+    </div>
+    <table class="recap"><tbody id="krecap"></tbody></table>
+    <div class="foot"><p>An adjuster will be assigned within two working days.</p><button type="button" class="btn" id="againBtn">Open a new KC-7</button></div>
+  </section>
+</div>
+
+<script>
+(function(){
+  const COUNTRIES=["Austria","Belgium","Bulgaria","Croatia","Czechia","France","Germany","Greece","Hungary","Italy","Netherlands","Poland","Portugal","Romania","Spain","United Kingdom"];
+  const MAKES=["Audi","BMW","Dacia","Fiat","Ford","Hyundai","Kia","Mercedes-Benz","Peugeot","Renault","Skoda","Toyota","Volkswagen","Volvo"];
+  const MONTHS=["January","February","March","April","May","June","July","August","September","October","November","December"];
+  const $=s=>document.querySelector(s); const pad=n=>String(n).padStart(2,'0');
+  const opts=(el,arr,ph)=>{el.innerHTML=(ph!==undefined?'<option value="">'+ph+'</option>':'')+arr.map(a=>Array.isArray(a)?'<option value="'+a[0]+'">'+a[1]+'</option>':'<option>'+a+'</option>').join('')};
+  const now=new Date(), Y=now.getFullYear();
+  opts($('#dobDay'),[...Array(31)].map((_,i)=>pad(i+1)),'DD');
+  opts($('#dobMonth'),MONTHS.map((m,i)=>[pad(i+1),m]),'Month');
+  opts($('#dobYear'),[...Array(Y-1919)].map((_,i)=>String(Y-i)),'YYYY');
+  opts($('#lossHour'),[...Array(24)].map((_,i)=>pad(i)),'HH');
+  opts($('#lossMinute'),[...Array(60)].map((_,i)=>pad(i)),'MM');
+  opts($('#vYear'),[...Array(2027-1979)].map((_,i)=>String(2027-i)),'Select year');
+  $('#countryList').innerHTML=COUNTRIES.map(c=>'<option value="'+c+'">').join('');
+  $('#makeList').innerHTML=MAKES.map(c=>'<option value="'+c+'">').join('');
+  $('#notifDate').value=pad(now.getDate())+'/'+pad(now.getMonth()+1)+'/'+Y;
+
+  /* split date: auto-advance, and accept a full date pasted or typed into the day box */
+  const dd=$('#lossDD'), mm=$('#lossMM'), yy=$('#lossYYYY');
+  dd.addEventListener('input',()=>{
+    const raw=dd.value, m=raw.match(/^(\d{1,2})\D+(\d{1,2})\D+(\d{4})$/)||raw.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+    if(m){ if(m[1].length===4){dd.value=pad(+m[3]);mm.value=pad(+m[2]);yy.value=m[1]} else {dd.value=pad(+m[1]);mm.value=pad(+m[2]);yy.value=m[3]} yy.focus(); return }
+    if(/^\d{2}$/.test(raw)) mm.focus();
+  });
+  dd.addEventListener('blur',()=>{if(/^\d{3,}$/.test(dd.value))dd.value=dd.value.slice(0,2)});
+  mm.addEventListener('input',()=>{mm.value=mm.value.replace(/\D/g,''); if(mm.value.length===2)yy.focus()});
+  yy.addEventListener('input',()=>{yy.value=yy.value.replace(/\D/g,'')});
+  [mm,yy].forEach(el=>el.addEventListener('keydown',e=>{if(e.key==='Backspace'&&!el.value)(el===mm?dd:mm).focus()}));
+
+  const circ=$('#circ'); circ.addEventListener('input',()=>{$('#circCount').textContent=circ.value.length+' / 600'});
+
+  const form=$('#kc7'); const tLoad=performance.now(); let tFirst=null;
+  ['pointerdown','keydown','input','focusin'].forEach(ev=>form.addEventListener(ev,()=>{if(tFirst===null)tFirst=performance.now()},true));
+  const v=id=>($('#'+id).value||'').trim();
+  const radio=n=>{const r=form.querySelector('input[name="'+n+'"]:checked');return r?r.value:''};
+  const parts=()=>[...form.querySelectorAll('input[name="part"]:checked')].map(c=>c.value);
+  function lossDate(){const d=+v('lossDD'),m=+v('lossMM'),y=+v('lossYYYY'); const dt=new Date(y,m-1,d); if(!d||!m||!y||dt.getMonth()!==m-1||dt.getDate()!==d) return null; return dt}
+  function dobDate(){const d=+v('dobDay'),m=+v('dobMonth'),y=+v('dobYear'); const dt=new Date(y,m-1,d); if(!d||!m||!y||dt.getMonth()!==m-1) return null; return dt}
+  const eq=(a,list)=>list.find(x=>x.toLowerCase()===a.toLowerCase());
+  const rules={
+    policyNo:()=>!!v('policyNo'), surname:()=>!!v('surname'), forenames:()=>!!v('forenames'),
+    dob:()=>!!dobDate()||'Enter a valid date of birth',
+    tel:()=>v('tel').replace(/\D/g,'').length>=6||'Enter a telephone number',
+    mail:()=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v('mail'))||'Enter a valid e-mail address',
+    lossDate:()=>{const d=lossDate(); if(!d) return 'Enter a valid date'; if(d>now) return 'Date cannot be in the future'; return true},
+    lossTime:()=>(!!v('lossHour')&&!!v('lossMinute'))||'Select hour and minute',
+    nature:()=>!!radio('nature'),
+    lossTown:()=>!!v('lossTown'),
+    lossCountry:()=>!!eq(v('lossCountry'),COUNTRIES)||'Choose a country from the list',
+    circ:()=>!!v('circ'),
+    vMake:()=>!!eq(v('vMake'),MAKES)||'Choose a make from the list',
+    vYear:()=>!!v('vYear'), vReg:()=>!!v('vReg'),
+    matrix:()=>parts().length>0||'Tick at least one part',
+    cost:()=>!isNaN(parseFloat(v('cost').replace(/[^\d.]/g,'')))||'Enter an amount in EUR',
+    sev:()=>!!radio('sev')||'Select a grade',
+    reported:()=>!!v('reported'),
+    policeRef:()=>v('reported')!=='Yes'||!!v('policeRef')||'Required when reported to police',
+    corr:()=>!!v('corr'),
+    decl:()=>$('#declare').checked||'Declaration must be ticked'
+  };
+  form.addEventListener('submit',e=>{
+    e.preventDefault();
+    const bad=[];
+    form.querySelectorAll('[data-v]').forEach(c=>{
+      const r=rules[c.dataset.v](); c.classList.toggle('bad',r!==true);
+      if(r!==true){ if(typeof r==='string')c.dataset.msg=r; else if(c.dataset.v!=='decl')delete c.dataset.msg; bad.push(c)}
+    });
+    const eb=$('#errbox');
+    if(bad.length){eb.textContent=bad.length+(bad.length===1?' field is':' fields are')+' incomplete. Correct the highlighted fields and lodge again.'; eb.classList.add('show'); bad[0].scrollIntoView({block:'center'}); return}
+    eb.classList.remove('show');
+    const t=performance.now(), ld=lossDate(), db=dobDate();
+    const fd=d=>pad(d.getDate())+'/'+pad(d.getMonth()+1)+'/'+d.getFullYear();
+    const rows=[
+      ['1.1 Policy no.',v('policyNo').toUpperCase()],['2.1 Surname',v('surname').toUpperCase()],['2.2 Forename(s)',v('forenames').toUpperCase()],
+      ['2.3 Date of birth',fd(db)],['2.4 Telephone',v('tel')],['2.5 E-mail',v('mail')],
+      ['3.1 Date of loss',fd(ld)],['3.2 Time of loss',v('lossHour')+':'+v('lossMinute')],['3.3 Nature of loss',radio('nature')],
+      ['3.4 Town',v('lossTown').toUpperCase()],['3.5 Country',eq(v('lossCountry'),COUNTRIES)],['3.6 Circumstances',v('circ')],
+      ['4.1 Make',eq(v('vMake'),MAKES)],['4.2 Year of manufacture',v('vYear')],['4.3 Registration mark',v('vReg').toUpperCase()],
+      ['5.1 Parts damaged',parts().join(', ')],['5.2 Estimated cost, EUR',parseFloat(v('cost').replace(/[^\d.]/g,'')).toFixed(2)],['5.3 Severity grade',radio('sev')],
+      ['6.1 Reported to police',v('reported')],['6.2 Police reference',v('policeRef').toUpperCase()||'None'],['6.3 Injury',$('#injured').checked?'Yes':'No'],
+      ['7.1 Correspondence',v('corr')],['8.1 Declaration','Signed'],['8.2 Date of notification',v('notifDate')]
+    ];
+    const tb=$('#krecap'); tb.innerHTML='';
+    rows.forEach(([k,val])=>{const tr=document.createElement('tr');const th=document.createElement('th');th.textContent=k;const td=document.createElement('td');td.textContent=val;tr.append(th,td);tb.append(tr)});
+    $('#kref').textContent='KC7/'+Y+'/'+String(Math.floor(Math.random()*1e6)).padStart(6,'0');
+    $('#kForm').textContent=tFirst===null?'–':((t-tFirst)/1000).toFixed(1)+' s';
+    $('#kLoad').textContent=((t-tLoad)/1000).toFixed(1)+' s';
+    $('#kAt').textContent=new Date().toLocaleTimeString('en-GB');
+    window.lastSubmission=Object.fromEntries(rows);
+    $('#formView').style.display='none'; $('#lodged').classList.add('show'); window.scrollTo(0,0);
+  });
+  $('#againBtn').addEventListener('click',()=>location.reload());
+})();
+</script>
+</body>
+</html>
